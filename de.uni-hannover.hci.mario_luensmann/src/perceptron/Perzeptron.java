@@ -2,6 +2,7 @@ package perceptron;
 
 import main.MainClass;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import datareader.Data;
@@ -29,8 +30,10 @@ public class Perzeptron {
 	public void train(Data[] pMergedArray){
 		double myValue1 = 0.0, myValue2 = 0.0;
 		
-		Perzeptron.this.myMain1.myWeightArray[0] = myWeightRandom.nextDouble();
-		Perzeptron.this.myMain1.myWeightArray[1] = myWeightRandom.nextDouble();
+		if(!firstEpoch){
+			Perzeptron.this.myMain1.myWeightArray[0] = myWeightRandom.nextDouble();
+			Perzeptron.this.myMain1.myWeightArray[1] = myWeightRandom.nextDouble();
+		}
 		
 		//System.out.println(Perzeptron.this.myMain1.myWeightArray[0]);
 		//System.out.println(Perzeptron.this.myMain1.myWeightArray[1]);
@@ -53,9 +56,11 @@ public class Perzeptron {
 							System.out.println("Temperatur: " + myValue1 + "\t Niederschlag: " + myValue2 + " -> \t Schlechtes Wetter");
 						}
 					}
+					Perzeptron.this.myMain1.myWeightArray[j] += Perzeptron.this.myMain1.learnRate * error * pMergedArray[i].myTrainData[i][j];
 				}
+				error += pMergedArray[i].myTrainOutput[i] - myFinishedResultsArray[i];
 			}
-			for(int i = 0; i < myFinishedResultsArray.length; i++){
+			/*for(int i = 0; i < myFinishedResultsArray.length; i++){
 				error += pMergedArray[i].myTrainOutput[i] - myFinishedResultsArray[i];
 				//System.out.println(error);
 			}
@@ -64,7 +69,7 @@ public class Perzeptron {
 					Perzeptron.this.myMain1.myWeightArray[j] += Perzeptron.this.myMain1.learnRate * error * pMergedArray[i].myTrainData[i][j];
 					System.out.println(Perzeptron.this.myMain1.myWeightArray[j]);
 				}
-			}
+			}*/
 			Perzeptron.this.myMain1.epochsPerRun -= 1;
 			if(!firstEpoch){
 				System.out.println("Die erste Epoche ist vergangen! Übrig sind noch: " + Perzeptron.this.myMain1.epochsPerRun);
@@ -92,15 +97,16 @@ public class Perzeptron {
 	}
 	
 	public double accuracyOfPerceptron(int[] pResultArray, Data[] pMergedArray){
-		int myValue1 = 1;
+		DecimalFormat myDF = new DecimalFormat("#.##");
+		double myValue1 = 1.0;
 		double myValue2 = 0.0;
 		for(int i = 0; i < pResultArray.length; i++){
 			if(pResultArray[i] == pMergedArray[i].myTrainOutput[i]){
-				myValue2 += myValue1 / pResultArray.length;
+				myValue2 += (double) (myValue1 / pResultArray.length);
 				System.out.println(myValue2);
 			}
 		}
-		System.out.println("Derzeitige Erkennungsrate liegt bei: " + myValue2);
+		System.out.println("Derzeitige Erkennungsrate liegt bei: " + myValue2 + ", " + "also bei: " + myDF.format(myValue2) + "%");
 		return myValue2;
 	}
 
