@@ -1,7 +1,7 @@
 /**
  * Die package Logik ist hier für das funzen des Programms nicht bedingend.
  */
-package Matrix_Logic;
+package de.uni_hannover.hci.mario_luensmann.Matrix_Logic;
 
 /**
  *  Nur dazu da um Randomisierte Werte für die Matrizen zu berechnen!
