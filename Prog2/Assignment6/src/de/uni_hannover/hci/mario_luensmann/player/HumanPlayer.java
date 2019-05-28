@@ -16,9 +16,9 @@ public class HumanPlayer extends ReversiPlayer {
 	
 	@Override
 	public boolean isStillAValidMove() {
-		// TODO Auto-generated method stub
 		
 		boolean isAValidMove = false;
+		
 		for(int i = 0; i < validMoves.length; i++){
 			for(int j = 0; j < validMoves[i].length; j++){
 				if(validMoves[i][j]){

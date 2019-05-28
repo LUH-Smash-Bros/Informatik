@@ -3,7 +3,6 @@ package de.uni_hannover.hci.mario_luensmann.rmain;
 import java.util.Scanner;
 
 import de.uni_hannover.hci.mario_luensmann.player.HumanPlayer;
-import de.uni_hannover.hci.mario_luensmann.player.NPCPlayer;
 import de.uni_hannover.hci.mario_luensmann.player.RandomisedNPCPlayer;
 import de.uni_hannover.hci.mario_luensmann.player.ReversiPlayer;
 import de.uni_hannover.hci.mario_luensmann.rboard.ReversiBoard;
