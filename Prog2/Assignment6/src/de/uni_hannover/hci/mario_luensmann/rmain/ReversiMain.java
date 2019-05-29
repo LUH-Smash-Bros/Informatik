@@ -103,13 +103,13 @@ public class ReversiMain {
 		//myReversiBoard.printBoard();
 		
 		game.run();
-		//myInputScanner1.close();
-		//myInputScanner2.close();
+		myInputScanner1.close();
+		myInputScanner2.close();
 	}
 	
 	private void initMessage(){
 		System.out.println();
-		System.out.println("Welcome to Reversi! Your Moves should be entered in a \"[row] [column]\" format.");
+		System.out.println("Welcome to Reversi! Your Moves should be entered in a \"[row]_[column]\" format.");
 		System.out.println();
 	}
 	
@@ -118,7 +118,14 @@ public class ReversiMain {
 		System.out.println(pPlayer.getStoneIdentifier() + " has no possible moves anymore." + " Game Over.");
 		System.out.println();
 	}
-	
+	/*
+	 * Magic Method ^^. A generic Method with generic Type Parameters and
+	 * a generic Type that it needs and which needs to be of Type ReversiPlayer
+	 * in order to work properly as it does not return anything but uses the
+	 * objects for backend operations in the run method. It is besides
+	 * the Main my heart of my implementation, which basically controls
+	 * the entire gameflow!
+	 */
 	private <T extends ReversiPlayer> void playTurn(T pPlayer){
 		
 		pPlayer.setValidMoves(myBoard.getValidMovesPlayers(pPlayer));
@@ -188,6 +195,15 @@ public class ReversiMain {
 		}
 	}
 	
+	/*
+	 * Here happens magic as well cause i have created thanks to java generics
+	 * one player1 value that always changes thanks to the while(true) statement
+	 * the type of player1 which is basically just a String representation of either
+	 * |X| or |O| just that player1 gets either the first object of |X| or the second
+	 * object of |O| if the second time <T extends ReversiPlayer>playTurn(T Player) is 
+	 * used. In between it always checks for whether there is already a winner or not in
+	 * each one of the cases seen below!
+	 */
 	private void run(){
 		initMessage();
 		

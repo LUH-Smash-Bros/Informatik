@@ -15,10 +15,10 @@ public class ReversiBoard implements IBoard {
 				myBoard[i][j] = "|_|";
 			}
 		}
-		myBoard[3][3] = "|X|";
-		myBoard[3][4] = "|O|";
-		myBoard[4][3] = "|O|";
-		myBoard[4][4] = "|X|";
+		myBoard[3][3] = "|O|";
+		myBoard[3][4] = "|X|";
+		myBoard[4][3] = "|X|";
+		myBoard[4][4] = "|O|";
 	}
 
 	@Override
@@ -46,8 +46,13 @@ public class ReversiBoard implements IBoard {
 
 	@Override
 	public void updateBoard(int pRow, int pCol, ReversiPlayer pPlayer) {
-		// TODO Auto-generated method stub
-		//final ReversiStones myStones = new ReversiStones();
+
+		/*
+		 * Determines each time who the actual current player1 and player2 is!
+		 * Means checks for the String representation of the current player which is
+		 * determined via the Switch function of the generic type parameter and generic
+		 * type Method in ReversiMain!
+		 */
 		String player2, player1;
 		if(pPlayer.getStoneIdentifier().equals("|X|")){
 			player2 = "|O|";
@@ -57,7 +62,11 @@ public class ReversiBoard implements IBoard {
 			player2 = "|X|";
 			player1 = "|O|";
 		}
-		
+		/*
+		 * To check where the current player1s possible move position is!
+		 * Means where is the current |*| position from which directions we 
+		 * need to check for the enemy position and its stones!
+		 */
 		int locateStones = 0;
 		if(myBoard[pRow][pCol].equals("|*|") || pPlayer.getValidMoves()[pRow][pCol]){
 			myBoard[pRow][pCol] = player1;
@@ -66,8 +75,37 @@ public class ReversiBoard implements IBoard {
 		
 		if(locateStones == 1){
 			//checks right horizontally
+			/*
+			 * The algorithm is as follows: First it checks in the direction mentioned above.
+			 * In this case it is right horizontally which means it goes from he start position
+			 * of the current valid move like for example pRow and pCol and iterates from one column
+			 * of pCol + 1 to the next Col which is pCol + 2. In that time of course the Row is fixed
+			 * because in that current direction we check horizontally! If in that direction it does not
+			 * find a player2 stone it simply checkSkips it and that as long as it does not hit the col
+			 * Number which is set as a final value at 8 s.a.! Iff however checkSkip is == 0 then it 
+			 * has found another stone which is probably an enemy stone of the opposite player!
+			 * At this point it would in here check whether at the position pRow at index i it equals
+			 * player2 and checkSkip == 0 which it of course needs to be then it checks checkStop == 1
+			 * as a value to stop for when it has done its job of iterating and updating the board!
+			 * Then it goes here in particular through the columns now because it sets i to j in order
+			 * to check for the rest of the columns. The first if reassures that at that pRow and j position
+			 * is an enemy stone and sets the checkstones to true or 1 and sets endFlip up 1 value!
+			 * It continues and checks with the second if are there more then one enemy stone or
+			 * probably empty spaces or another |*| valid move and if thats true it also sets 
+			 * otherStones flag true but sets endFlip to 0 again, so that it can iterate a second
+			 * time over the board in order to change for example situations where it would eat not
+			 * only in horizontal but probably also a diagonical way so that it does both at the same
+			 * time, Reversi Rules FTW! And the last if within the innermost for is there that if there
+			 * is ONLY one enemy stone that it puts the flipper on which means put the flag flipStones
+			 * to 1 so that the follow up if-statement can take care of it! The last if then checks for
+			 * it and also rechecks that otherstones is still not 1 so that it does not only change 1
+			 * place but multiple as has been mentioned above, and finally leaves the entire iteration
+			 * process of updating the board in this particular case!
+			 * 
+			 * The Rest of the cases is very similar just has another direction to start off from!
+			 */
 			int checkStones = 0, otherStones = 0, flipStones = 0, endFlip = 0, checkSkip = 0, checkStop = 1;
-			for(int i = pCol + 1; i < pCol; i++){
+			for(int i = pCol + 1; i < col; i++){
 				if(!myBoard[pRow][i].equals(player2)){
 					checkSkip = 1;
 				}
